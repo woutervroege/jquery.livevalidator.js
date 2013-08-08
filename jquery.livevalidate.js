@@ -247,6 +247,9 @@
             /*
         checkbox input
         */
+            if(!el.attr("required"))
+                return approveElement(el);
+
             if (el.is(":checked")) {
                 return approveElement(el);
             }
