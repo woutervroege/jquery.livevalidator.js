@@ -36,7 +36,8 @@
                 },
                 onSelectFile: function(err, result) {
                     if(err)
-                        return alert(err);
+                        return alert("#" + err.element.attr("id") + " is invalid");
+
                 }
             })
         })
@@ -86,7 +87,7 @@
                 },
                 onSelectFile: function(err, result) {
                     if(err)
-                        return console.warn(err);
+                        return alert("#" + err.element.attr("id") + " is invalid");
                 }
             })
    </code>
@@ -95,8 +96,8 @@
     <input data-type="text" required placeholder="name (any string)" id="name"/>
     <input data-type="text" id="voetbalclubs" data-pattern="/ajax|feyenoord/"/>
     <input data-type="email" required placeholder="email address (user@example.com)"/>
-    <input type="file" value="image upload (jpg, png, gif)" data-accept="jpg,jpeg,gif,png" required/>
-    <input type="file" value="pdf upload" data-accept="pdf" required/>
+    <input type="file" value="image upload (jpg, png, gif)" data-accept="jpg,jpeg,gif,png" required id="imageUpload"/>
+    <input type="file" value="pdf upload" data-accept="pdf" required id="pdfUpload"/>
     <input data-type="url" placeholder="website url (www.example.com)"/>
     <input data-type="date" placeholder="US Date (mm/dd/yyyy)"/>
     <input data-type="date" placeholder="NL Date (dd/mm/yyyy)" data-format="dd/mm/yyyy" required/>

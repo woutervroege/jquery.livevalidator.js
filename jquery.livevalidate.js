@@ -56,7 +56,10 @@
                     }
                 rejectElement($(this));
                 $(this).removeAttr("data-value");
-                that.config.onSelectFile("invalid file extension, accepted file extensions are: " + allowedExts.join(", "));
+                that.config.onSelectFile({
+                    element: $(this),
+                    message: "invalid file extension, accepted file extensions are: " + allowedExts.join(", ")
+                });
             }
         });
 
