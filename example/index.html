@@ -36,7 +36,7 @@
                 },
                 onSelectFile: function(err, result) {
                     if(err)
-                        return console.log(err.message);
+                        return alert(err.message);
 
                 }
             })
@@ -87,7 +87,7 @@
                 },
                 onSelectFile: function(err, result) {
                     if(err)
-                        return alert("#" + err.element.attr("id") + " is invalid");
+                        return alert(err.message);
                 }
             })
    </code>
