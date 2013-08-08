@@ -11,15 +11,16 @@
 
     <script>
         $("document").ready(function() {
-                
+
                 $("form#simple").livevalidate({
                 preventSubmit: true,
+                submitButton: "#customSubmit",
                 onError: function(numErrors) {
                     alert(numErrors + " error(s) found...");
                 },
                 onSuccess: function(data) {
                     alert("Successs....\n\n" + JSON.stringify(data));
-                },
+                }
             })
 
             $("form#advanced").livevalidate({
@@ -49,12 +50,13 @@
   <code data-language="javascript">
             $("form#simple").livevalidate({
                 preventSubmit: true,
+                submitButton: "#customSubmit",
                 onError: function(numErrors) {
                     alert(numErrors + " error(s) found...");
                 },
                 onSuccess: function(data) {
                     alert(JSON.stringify(data));
-                },
+                }
             })
         </code>
     </pre>
@@ -62,8 +64,10 @@
   <form action="test.php" method="POST" id="simple">
     <input id="email" data-type="email" required placeholder="email address (user@example.com)"/>
     <input id="password" type="password" placeholder="password (use at least one, special char and digit) (minimum 8)" required/>
-    <input type="submit"/>
-  </form>
+    <div id="customButton">Submit</div>
+
+<!--     <input type="submit"/>
+ -->  </form>
 
   <h3>An advanced form</h3>
 
@@ -89,6 +93,7 @@
     </pre>
   <form action="#" id="advanced">
     <input data-type="text" required placeholder="name (any string)" id="name"/>
+    <input data-type="text" id="voetbalclubs" data-pattern="/ajax|feyenoord/"/>
     <input data-type="email" required placeholder="email address (user@example.com)"/>
     <input type="file" value="image upload (jpg, png, gif)" data-accept="jpg,jpeg,gif,png" required/>
     <input type="file" value="pdf upload" data-accept="pdf" required/>

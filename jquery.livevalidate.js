@@ -31,7 +31,8 @@
                 onSuccess: that.options.onSuccess,
                 onSelectFile: that.options.onSelectFile,
                 preventSubmit: that.options.preventSubmit || getPreventSubmit(),
-                slideToError: that.options.slideToError || getSlideToError()
+                slideToError: that.options.slideToError || getSlideToError(),
+                submitButton: that.options.submitButton || getSubmitButton()
             }
         }
 
@@ -59,7 +60,7 @@
             }
         });
 
-        that.find($("input[type=submit]")).click(function(e) {
+        that.find(that.config.submitButton).click(function(e) {
             e.preventDefault();
             validateAll();
         })
@@ -97,12 +98,17 @@
             return false;
         }
 
+        function getSubmitButton() {
+            return that.find("input[type=submit]");
+        }
+
         function getDefaultSettings() {
             return {
                 errorClass: getErrorClass(),
                 successClass: getSuccessClass(),
                 preventSubmit: getPreventSubmit(),
-                slideToError: getSlideToError()
+                slideToError: getSlideToError(),
+                submitButton: getSubmitButton()
             }
         }
 
