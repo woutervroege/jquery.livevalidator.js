@@ -72,9 +72,9 @@
 
         function validateAll() {
             that.find("input, textarea").trigger("keyup");
-            var n = getNumErrors();
-            if (n > 0) {
-                that.config.onError(n);
+            var e = getErrors();
+            if (e.count > 0) {
+                that.config.onError(e);
                 if (that.config.slideToError) {
                     $("html, body").animate({
                         scrollTop: that.find(".input-error").first().position().top
@@ -89,9 +89,22 @@
             }
         }
 
-        function getNumErrors() {
-            var num_errors = that.find(".input-error").length;
-            return num_errors;
+        function getErrors() {
+
+            var elements = {};
+
+            $(".input-error").each(function(i, elem) {
+                elements[$(this).attr("id") || "element_" + i] = true;
+            })
+
+            var numErrors = Object.keys(elements).length;
+
+            return {
+                invalidElements: elements,
+                count: numErrors
+            };
+            return e;
+
         }
 
         function getPreventSubmit() {

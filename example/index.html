@@ -15,8 +15,8 @@
                 $("form#simple").livevalidate({
                 preventSubmit: true,
                 submitButton: "#customSubmit",
-                onError: function(numErrors) {
-                    alert(numErrors + " error(s) found...");
+                onError: function(e) {
+                    alert("Error; invalid elements: " + Object.keys(e.invalidElements).join(", "));
                 },
                 onSuccess: function(data) {
                     alert("Successs....\n\n" + JSON.stringify(data));
@@ -28,8 +28,8 @@
                 errorClass: "input-error",
                 successClass: "input-success",
                 slideToError: true,
-                onError: function(numErrors) {
-                    console.warn(numErrors + " error(s) found...");
+                onError: function(e) {
+                    console.warn(e);
                 },
                 onSuccess: function(data) {
                     console.log(JSON.stringify(data));
@@ -51,12 +51,12 @@
             $("form#simple").livevalidate({
                 preventSubmit: true,
                 submitButton: "#customSubmit",
-                onError: function(numErrors) {
-                    alert(numErrors + " error(s) found...");
+                onError: function(e) {
+                    alert(JSON.stringify(e))
                 },
                 onSuccess: function(data) {
                     alert(JSON.stringify(data));
-                }
+                },
             })
         </code>
     </pre>
@@ -64,7 +64,7 @@
   <form action="test.php" method="POST" id="simple">
     <input id="email" data-type="email" required placeholder="email address (user@example.com)"/>
     <input id="password" type="password" placeholder="password (use at least one, special char and digit) (minimum 8)" required/>
-    <div id="customButton">Submit</div>
+    <div id="customSubmit">Submit</div>
 
 <!--     <input type="submit"/>
  -->  </form>
@@ -78,8 +78,8 @@
                 errorClass: "input-error",
                 successClass: "input-success",
                 slideToError: true,
-                onError: function(numErrors) {
-                    console.warn(numErrors + " error(s) found...");
+                onError: function(e) {
+                    console.warn(e);
                 },
                 onSuccess: function(data) {
                     console.log(JSON.stringify(data));
