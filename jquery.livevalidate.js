@@ -250,7 +250,7 @@
             /*
         checkbox input
         */
-            if(!el.attr("required"))
+            if (!el.attr("required"))
                 return approveElement(el);
 
             if (el.is(":checked")) {
@@ -273,23 +273,89 @@
 
         function processFile(el) {
             var self = el;
-            var canvas = document.createElement("canvas"),
-                ctx = canvas.getContext("2d"),
-                fileReader = new FileReader();
+            var fileReader = new FileReader();
 
             fileReader.onload = function(e) {
-                $(self).attr("data-value", e.target.result);
-                that.config.onSelectFile(null, {
-                    element: el,
-                    contentType: parseContentType(e.target.result),
-                    contents: e.target.result
-                });
+
+                resizeImage(el, e.target.result, function(err, data) {
+                    e = null;
+                    if (err)
+                        return that.config.onSelectFile(err);
+                    $(self).attr("data-value", data);
+                    that.config.onSelectFile(null, {
+                        element: self,
+                        contentType: parseContentType(data),
+                        contents: data
+                    });
+                })
             }
             fileReader.readAsDataURL(el.files[0]);
         }
 
         function parseContentType(data) {
             return data.match(/^.*?:.*?;/g)[0].replace("data:", "").replace(";", "");
+        }
+
+        /*
+        resize image
+        */
+
+        function resizeImage(el, imageData, callback) {
+
+            /*define input data*/
+            var data = imageData;
+
+            /* create  temp image */
+            var tempImage = new Image();
+
+            /* init canvas elements */
+            var canvas = document.createElement("canvas"),
+                ctx = canvas.getContext("2d");
+
+            /* return callback if data doesn't hold an image blob */
+            if (!isImage(data)) {
+                return callback(null, data);
+            }
+
+            /* if no max size is set */
+            if (!$(el).data("max-size")) {
+                return callback(null, data);
+            }
+
+            /* define max size */
+            var maxSize = $(el).data("max-size");
+
+            /* load the image */
+            tempImage.onload = function() {
+                var newSize = getResizedImageSize(tempImage, maxSize);
+                tempImage.width = newSize.width;
+                tempImage.height = newSize.height;
+
+                canvas.width = newSize.width;
+                canvas.height = newSize.height;
+
+                ctx.drawImage(tempImage, 0, 0, tempImage.width, tempImage.height);
+
+                callback(null, canvas.toDataURL("image/jpeg"));
+            }
+
+            tempImage.src = data;
+        }
+
+        function getResizedImageSize(image, maxSize) {
+            if (image.width > image.height) {
+                var scaleRatio = maxSize / image.width;
+            } else {
+                var scaleRatio = maxSize / image.height;
+            }
+            return {
+                width: Math.round(image.width * scaleRatio),
+                height: Math.round(image.height * scaleRatio)
+            }
+        }
+
+        function isImage(imageSource) {
+            return imageSource.match(/^data:image\/(jpg|jpeg|png|gif)/gi);
         }
 
     }
