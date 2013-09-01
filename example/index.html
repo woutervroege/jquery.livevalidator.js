@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <title>Jquery Live validator | by Wouter Vroege</title>
     <meta charset="utf-8"/>
@@ -8,140 +8,121 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="rainbow-custom.min.js"></script>
     <script src="../jquery.livevalidate.js"></script>
-    
   </head>
   <body>
-
-  <h3>example #1</h3>
-
-  <pre>
+    <h3>example #1</h3>
+    <pre>
     <code data-language="javascript" rel="example-1">
-<!--             $("#example-1").livevalidate({}); -->
     </code>
   </pre>
-
-  <form action="sendform.php" method="POST" id="example-1">
-    <input name="firstName" type="text" placeholder="first name"/>
-    <input name="email" type="email" placeholder="email address (user@example.com)" required/>
-    <input type="submit"/>
-  </form>
-
-  <h3>example #2</h3>
-
-  <pre>
+    <form action="sendform.php" method="POST" id="example-1">
+      <input name="firstName" type="text" placeholder="first name"/>
+      <input name="email" type="email" placeholder="email address (user@example.com)" required/>
+      <input type="submit"/>
+    </form>
+    <h3>example #2</h3>
+    <pre>
     <code data-language="javascript" rel="example-2">
     </code>
   </pre>
-
-  <form action="sendform.php" method="POST" id="example-2">
-    <input name="firstName" type="text" placeholder="first name" required/>
-    <input name="email" type="email" placeholder="email address (user@example.com)" required/>
-    <input type="submit"/>
-  </form>
-
-  <h3>example #3</h3>
-
-  <pre>
+    <form action="sendform.php" method="POST" id="example-2">
+      <input name="firstName" type="text" placeholder="first name" required/>
+      <input name="email" type="email" placeholder="email address (user@example.com)" required/>
+      <input type="submit"/>
+    </form>
+    <h3>example #3</h3>
+    <pre>
     <code data-language="javascript" rel="example-3">
     </code>
   </pre>
-
-  <form action="sendform.php" method="POST" id="example-3">
-    <input name="name" type="text" placeholder="name"/>
-    <input name="email" type="email" placeholder="email address (user@example.com)"/>
-    interests: <label><input name="interests" type="checkbox" value="sport"/> sports</label>
-               <label><input name="interests" type="checkbox" value="art"/> arts</label>
-               <label><input name="interests" type="checkbox" value="news"/> news</label>
-               <label><input name="interests" type="checkbox" value="other"/> other</label>
-    <input name="website" type="url" placeholder="website"/>
-    gender: <label><input name="gender" type="radio" value="female" required/> female</label>
-            <label><input name="gender" type="radio" value="male"/> male</label>
-    <input type="submit"/>
-  </form>
-    
-  <h3>example #4</h3>
-
-  <pre>
+    <form action="sendform.php" method="POST" id="example-3">
+      <input name="name" type="text" placeholder="name"/>
+      <input name="email" type="email" placeholder="email address (user@example.com)"/>
+      interests: <label><input name="interests" type="checkbox" value="sport"/> sports</label>
+      <label><input name="interests" type="checkbox" value="art"/> arts</label>
+      <label><input name="interests" type="checkbox" value="news"/> news</label>
+      <label><input name="interests" type="checkbox" value="other"/> other</label>
+      <input name="website" type="url" placeholder="website"/>
+      gender: <label><input name="gender" type="radio" value="female" required/> female</label>
+      <label><input name="gender" type="radio" value="male"/> male</label>
+      <input type="submit"/>
+    </form>
+    <h3>example #4</h3>
+    <pre>
    <code data-language="javascript" rel="example-4">
    </code>
     </pre>
-  <form action="#" id="example-4">
-    <input type="text" required placeholder="name (any string)" name="name"/>
-    <input type="email" required placeholder="email address (user@example.com)"/>
-    <select name="continent" placeholder="select continent" required>
+    <form action="#" id="example-4">
+      <input type="text" required placeholder="name (any string)" name="name"/>
+      <input type="email" required placeholder="email address (user@example.com)"/>
+      <select name="continent" required>
         <option></option>
         <optgroup label="select a continent">
-        <option value="Europe">Europe</option>
-        <option value="North America">North America</option>
-        <option value="South America">South America</option>
-        <option value="Australia">Australia</option>
-        <option value="Asia">Asia</option>
-        <option value="Africa">Africa</option>
+          <option value="Europe">Europe</option>
+          <option value="North America">North America</option>
+          <option value="South America">South America</option>
+          <option value="Australia">Australia</option>
+          <option value="Asia">Asia</option>
+          <option value="Africa">Africa</option>
         </optgroup>
-    </select>
-    <input type="file" value="image upload (jpg, png, gif)" data-accept="jpg,jpeg,gif,png" name="imageUpload" data-max-size="500" required/>
-    <input type="url" placeholder="website url (www.example.com)"/>
-    <input type="date" placeholder="US Date (mm/dd/yyyy)"/>
-    <input type="date" placeholder="NL Date (dd/mm/yyyy)" data-format="dd/mm/yyyy" required/>
-    <input type="time" placeholder="UK time (12h)" data-format="hh:MM" required/>
-    <input type="time" placeholder="NL time (24h)"/>
-    <input type="password" placeholder="password" required/>
-    <textarea required></textarea>
-    <label for="category"><input type="checkbox" name="terms" value="agree" required/> please sign</label>
-    <input type="submit"/>
-  </form>
-
+      </select>
+      <input type="file" value="image upload (jpg, png, gif)" data-accept="jpg,jpeg,gif,png" name="imageUpload" data-max-size="500" required/>
+      <input type="url" placeholder="website url (www.example.com)"/>
+      <input type="date" placeholder="US Date (mm/dd/yyyy)"/>
+      <input type="date" placeholder="NL Date (dd/mm/yyyy)" data-format="dd/mm/yyyy" required/>
+      <input type="time" placeholder="UK time (12h)" data-format="hh:MM" required/>
+      <input type="time" placeholder="NL time (24h)"/>
+      <input type="password" placeholder="password" required/>
+      <textarea required></textarea>
+      <label for="category"><input type="checkbox" name="terms" value="agree" required/> please sign</label>
+      <input type="submit"/>
+    </form>
     <script rel="example-1">
-        $("#example-1").livevalidate({});
+      $("#example-1").livevalidate({});
     </script>
-    
     <script rel="example-2">
-        $("#example-2").livevalidate({
-            preventSubmit: true,
-            onSuccess: function(data) {
-                alert("The form is valid, you can continue...");
-            },
-            onError: function(e) {
-                alert("Invalid elements: " + e.elementNames);
-            }
-        });
+      $("#example-2").livevalidate({
+          preventSubmit: true,
+          onSuccess: function(data) {
+              alert("The form is valid, you can continue...");
+          },
+          onError: function(e) {
+              alert("Invalid elements: " + e.elementNames);
+          }
+      });
     </script>
-    
     <script rel="example-3">
-        $("#example-3").livevalidate({
-            preventSubmit: true,
-            onSuccess: function(data) {
-                alert("Success!\n\n" + JSON.stringify(data));
-            },
-            onError: function(e) {
-                alert("Invalid elements: " + e.elementNames);
-            }
-        });
+      $("#example-3").livevalidate({
+          preventSubmit: true,
+          onSuccess: function(data) {
+              alert("Success!\n\n" + JSON.stringify(data));
+          },
+          onError: function(e) {
+              alert("Invalid elements: " + e.elementNames);
+          }
+      });
     </script>
-            
     <script rel="example-4">
-        $("#example-4").livevalidate({
-            preventSubmit: true,
-            slideToError: true,
-            onError: function(e) {
-                alert("Invalid elements: " + e.elementNames);
-            },
-            onSuccess: function(data) {
-                alert(JSON.stringify(data));
-            },
-            onSelectFile: function(err, result) {
-                if(err)
-                    return alert(err.message);
+      $("#example-4").livevalidate({
+          preventSubmit: true,
+          slideToError: true,
+          onError: function(e) {
+              alert("Invalid elements: " + e.elementNames);
+          },
+          onSuccess: function(data) {
+              alert(JSON.stringify(data));
+          },
+          onSelectFile: function(err, result) {
+              if(err)
+                  return alert(err.message);
 
-            }
-        })
+          }
+      })
     </script>
-
     <script>
-        $("code").each(function() {
-            $(this).html($("script[rel="+$(this).attr("rel")+"]").html());
-        })
+      $("code").each(function() {
+          $(this).html($("script[rel="+$(this).attr("rel")+"]").html());
+      })
     </script>
-
   </body>
 </html>
