@@ -33,7 +33,8 @@ font-family: "Helvetica Neue", Helvetica, sans-serif;
   }
 
   input,
-  textarea {
+  textarea,
+  select {
     display: inline-block;
     border: 1px solid #ddd;
     box-sizing: border-box;
@@ -51,6 +52,7 @@ font-family: "Helvetica Neue", Helvetica, sans-serif;
   }
     input[required],
     textarea[required] {
+    select[required]
     background-image: url("images/input-required.png");
   }
   .input-success {
@@ -60,12 +62,18 @@ font-family: "Helvetica Neue", Helvetica, sans-serif;
     background-image: url("images/input-invalid.png")!important;
   }
 
+  select[required] {
+    background-position: 96% 0;
+  }
+
+
   textarea {
       height:200px;
   }
 
-  input[type="checkbox"] {
-      width: 20px;
+  input[type="checkbox"], input[type="radio"] {
+      width: 12px;
+      margin-left: 10px;
   }
 
   input[type=submit] {

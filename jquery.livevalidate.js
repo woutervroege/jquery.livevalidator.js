@@ -1,12 +1,12 @@
-"use strict";
+/*
+ * @package jquery.livevalidator.js
+ * @copyright (©) 2013 Wouter Vroege <wouter AT woutervroege DOT nl>
+ * @author Wouter Vroege <wouter AT woutervroege DOT nl>
+ */
 
 (function($) {
 
-    /*
-     * @package jquery.livevalidator.js
-     * @copyright (©) 2013 Wouter Vroege <wouter AT woutervroege DOT nl>
-     * @author Wouter Vroege <wouter AT woutervroege DOT nl>
-     */
+    "use strict";
 
     /*
     main function
@@ -27,8 +27,8 @@
             that.config = {
                 errorClass: that.options.errorClass || getErrorClass(),
                 successClass: that.options.successClass || getSuccessClass(),
-                onError: that.options.onError,
-                onSuccess: that.options.onSuccess,
+                onError: that.options.onError || getOnError,
+                onSuccess: that.options.onSuccess || getOnSuccess,
                 onSelectFile: that.options.onSelectFile,
                 preventSubmit: that.options.preventSubmit || getPreventSubmit(),
                 slideToError: that.options.slideToError || getSlideToError(),
@@ -40,7 +40,7 @@
         attach event listeners
         */
 
-        that.find("input, textarea").bind("keyup change focusout", function(e) {
+        that.find("input, textarea, select").bind("keyup change focusout", function() {
             validateElement($(this));
         })
 
@@ -74,13 +74,13 @@
     */
 
         function validateAll() {
-            that.find("input, textarea").trigger("keyup");
+            that.find("input, textarea, select").trigger("keyup");
             var e = getErrors();
             if (e.count > 0) {
                 that.config.onError(e);
                 if (that.config.slideToError) {
                     $("html, body").animate({
-                        scrollTop: that.find(".input-error").first().position().top
+                        scrollTop: that.find("." + that.config.errorClass).first().position().top
                     }, 200);
                 }
 
@@ -92,19 +92,30 @@
             }
         }
 
+        function getOnSuccess(data) {
+            return console.log(data);
+        }
+
+        function getOnError(e) {
+            return console.warn(e);
+        }
+
         function getErrors() {
 
             var elements = {};
 
-            $(".input-error").each(function(i, elem) {
-                elements[$(this).attr("id") || "element_" + i] = true;
+            that.find("." + that.config.errorClass).each(function(i, elem) {
+                elements[$(this).attr("name") || "element_" + i] = true;
             })
 
             var numErrors = Object.keys(elements).length;
 
             return {
                 invalidElements: elements,
-                count: numErrors
+                elementNames: $.map(elements, function(item, key) {
+                    return key;
+                }).join(", "),
+                count: numErrors,
             };
             return e;
 
@@ -148,6 +159,10 @@
             var val = el.val();
             var pattern = getPattern(el);
 
+            /* check radio buttons */
+            if (el.attr("type") == "radio")
+                return validateRadioButton(el);
+
             /* check checkboxes */
             if (el.attr("type") == "checkbox")
                 return validateCheckbox(el);
@@ -169,10 +184,7 @@
             if (el.data("pattern"))
                 return eval(el.data("pattern"));
 
-            if (el.attr("type") == "password")
-                return /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W]).*$/;
-
-            var inputType = el.data("type");
+            var inputType = el.attr("type");
             switch (inputType) {
 
                 /*
@@ -240,10 +252,30 @@
 
         function getFormData() {
             var jsonOutput = {}
-            that.find("input:not([type=submit]), textarea").each(function(key, el) {
-                jsonOutput[$(el).attr("id") || "element_" + key] = $(el).data("value") || $(el).val()
+            that.find("input:not([type=submit]), textarea, select").each(function(key, el) {
+                switch ($(el).attr("type")) {
+                    default: jsonOutput[$(el).attr("name") || "element_" + key] = $(el).data("value") || $(el).val()
+                    break;
+                    case "radio":
+                        var el = that.find("input[name='" + $(el).attr('name') + "']:checked");
+                        jsonOutput[el.attr("name") || "element_" + key] = el.val()
+                        break;
+                    case "checkbox":
+                        jsonOutput[$(el).attr("name") || "element_" + key] = $.map($("input[name='" + $(el).attr("name") + "']:checked"), function(checkbox) {
+                            return $(checkbox).val();
+                        }).join(", ");
+                        break;
+                }
             })
             return jsonOutput;
+        }
+
+        function validateRadioButton(el) {
+            var groupName = el.attr("name");
+            var checkedElement = $("input[name=" + groupName + "]:checked");
+            if (!checkedElement.val() && !el.attr("required"))
+                return rejectElement(el);
+            approveElement(el);
         }
 
         function validateCheckbox(el) {
@@ -260,7 +292,7 @@
         }
 
         function approveElement(el) {
-            el.removeClass("input-error").addClass(that.config.successClass);
+            el.removeClass(that.config.errorClass).addClass(that.config.successClass);
         }
 
         function rejectElement(el) {
