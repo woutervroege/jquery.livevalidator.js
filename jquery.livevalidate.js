@@ -3,7 +3,7 @@
  * @copyright (©) 2013 Wouter Vroege <wouter AT woutervroege DOT nl>
  * @author Wouter Vroege <wouter AT woutervroege DOT nl>
  */
-(function ($) {
+(function($) {
 
   "use strict";
 
@@ -11,7 +11,7 @@
     main function
     */
 
-  $.fn.livevalidate = function (options) {
+  $.fn.livevalidate = function(options) {
 
     var that = this;
     that.options = options;
@@ -39,11 +39,11 @@
         attach event listeners
         */
 
-    that.find("input, textarea, select").bind("keyup change focusout", function () {
+    that.find("input, textarea, select").bind("keyup change focusout", function() {
       validateElement($(this));
     })
 
-    that.find("input[type=file]").bind("change keyup", function () {
+    that.find("input[type=file]").bind("change keyup", function() {
       if ($(this).data("accept")) {
         var allowedExts = $(this).data("accept").toLowerCase().replace(/\s/g, "").split(",");
         var fileChunks = $(this).val().split(/\./g);
@@ -62,7 +62,7 @@
       }
     });
 
-    that.find(that.config.submitButton).click(function (e) {
+    $("body").on("click", that.config.submitButton, function(e) {
       e.preventDefault();
       validateAll();
     })
@@ -102,7 +102,7 @@
 
       var elements = {};
 
-      that.find("." + that.config.errorClass).each(function (i, elem) {
+      that.find("." + that.config.errorClass).each(function(i, elem) {
         elements[$(this).attr("name") || "element_" + i] = true;
       })
 
@@ -110,7 +110,7 @@
 
       return {
         invalidElements: elements,
-        elementNames: $.map(elements, function (item, key) {
+        elementNames: $.map(elements, function(item, key) {
           return key;
         }).join(", "),
         count: numErrors,
@@ -188,81 +188,81 @@
         /*
             email input
             */
-      case "email":
-        return /\S+@\S+\.\S\S+/;
-        break;
+        case "email":
+          return /\S+@\S+\.\S\S+/;
+          break;
 
-        /*
+          /*
             url input
             */
 
-      case "url":
-        return /^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/;
-        break;
+        case "url":
+          return /^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/;
+          break;
 
-        /*
+          /*
             date input
             */
 
-      case "date":
-        if (!el.data("format"))
-          return /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/;
-        switch (el.data("format")) {
-        case "dd/mm/yyyy":
-        case "dd-mm-yyyy":
-          return /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
+        case "date":
+          if (!el.data("format"))
+            return /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/;
+          switch (el.data("format")) {
+            case "dd/mm/yyyy":
+            case "dd-mm-yyyy":
+              return /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
+              break;
+            default:
+              return /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/;
+              break;
+          }
           break;
-        default:
-          return /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/;
-          break;
-        }
-        break;
 
-        /*
+          /*
             time input
             */
 
-      case "time":
-        if (!el.data("format"))
-          return /^(([0-1][0-9]|[2][0-3])):([0-5]\d)$/;
-        switch (el.data("format")) {
-        case "hh:MM":
-        case "hh:mm":
-          return /^([0-1][0-2]):([0-5]\d)$/;
-          break;
-        case "HH:MM":
-        default:
-          return /^(([0-1][0-9]|[2][0-3])):([0-5]\d)$/;
-          break;
-        }
+        case "time":
+          if (!el.data("format"))
+            return /^(([0-1][0-9]|[2][0-3])):([0-5]\d)$/;
+          switch (el.data("format")) {
+            case "hh:MM":
+            case "hh:mm":
+              return /^([0-1][0-2]):([0-5]\d)$/;
+              break;
+            case "HH:MM":
+            default:
+              return /^(([0-1][0-9]|[2][0-3])):([0-5]\d)$/;
+              break;
+          }
 
-        break;
+          break;
 
-        /*
+          /*
             fallback (any string, minium of 2 characters)
             */
 
-      default:
-        return /\w{2,10}\b/;
-        break;
+        default:
+          return /\w{2,10}\b/;
+          break;
       }
     }
 
     function getFormData() {
       var jsonOutput = {}
-      that.find("input:not([type=submit]), textarea, select").each(function (key, el) {
+      that.find("input:not([type=submit]), textarea, select").each(function(key, el) {
         switch ($(el).attr("type")) {
           default: jsonOutput[$(el).attr("name") || "element_" + key] = $(el).data("value") || $(el).val()
           break;
-        case "radio":
-          var el = that.find("input[name='" + $(el).attr('name') + "']:checked");
-          jsonOutput[el.attr("name") || "element_" + key] = el.val()
-          break;
-        case "checkbox":
-          jsonOutput[$(el).attr("name") || "element_" + key] = $.map($("input[name='" + $(el).attr("name") + "']:checked"), function (checkbox) {
-            return $(checkbox).val();
-          }).join(", ");
-          break;
+          case "radio":
+            var el = that.find("input[name='" + $(el).attr('name') + "']:checked");
+            jsonOutput[el.attr("name") || "element_" + key] = el.val()
+            break;
+          case "checkbox":
+            jsonOutput[$(el).attr("name") || "element_" + key] = $.map($("input[name='" + $(el).attr("name") + "']:checked"), function(checkbox) {
+              return $(checkbox).val();
+            }).join(", ");
+            break;
         }
       })
       return jsonOutput;
@@ -305,9 +305,9 @@
       var self = el;
       var fileReader = new FileReader();
 
-      fileReader.onload = function (e) {
+      fileReader.onload = function(e) {
 
-        resizeImage(el, e.target.result, function (err, data) {
+        resizeImage(el, e.target.result, function(err, data) {
           e = null;
           if (err)
             return that.config.onSelectFile(err);
@@ -356,7 +356,7 @@
       var maxSize = $(el).data("max-size");
 
       /* load the image */
-      tempImage.onload = function () {
+      tempImage.onload = function() {
         var newSize = getResizedImageSize(tempImage, maxSize);
         tempImage.width = newSize.width;
         tempImage.height = newSize.height;
